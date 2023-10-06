@@ -1,0 +1,22 @@
+name: Download the secret spots playlist everyday
+
+on:
+  schedule:
+    # This runs at 12:00 UTC every day
+    - cron: '0 12 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl gawk
+        
+    - name: Run my script
+      run: bash ./download
