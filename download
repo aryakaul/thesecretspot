@@ -1,0 +1,51 @@
+#!/bin/bash
+
+filename=$(date -v-6d -u +%Y-%m-%d)
+
+url="https://onlineradiobox.com/us/wers/playlist/6?cs=us.wers&useStationLocation=1"
+
+curl -S "${url}" | grep -E "tablelist-schedule__time|track_history_item" | gawk '
+NR%2 {
+    match($0, /<span class="time--schedule">([0-9]{2}:[0-9]{2})<\/span>/, arr);
+    time = arr[1];
+    next
+}
+{
+    if (time >= "22:00") {
+        if (index($0, "ajax") > 0) {
+            sub(/.*"ajax">/, "");
+            sub(/<\/a>.*/, "");
+            name = $0;
+        } else {
+            match($0, /track_history_item">([^<]+)</, arr);
+            name = arr[1];
+        }
+        if (index(name, "-") > 0) {
+            print time "\t" name
+        }
+    }
+}' | sort -k1,1 > ./playlist_archive/$filename
+
+
+url="https://onlineradiobox.com/us/wers/playlist/5?cs=us.wers&useStationLocation=1"
+curl -S "${url}" | grep -E "tablelist-schedule__time|track_history_item" | gawk '
+NR%2 {
+    match($0, /<span class="time--schedule">([0-9]{2}:[0-9]{2})<\/span>/, arr);
+    time = arr[1];
+    next
+}
+{
+    if (time < "02:00") {
+        if (index($0, "ajax") > 0) {
+            sub(/.*"ajax">/, "");
+            sub(/<\/a>.*/, "");
+            name = $0;
+        } else {
+            match($0, /track_history_item">([^<]+)</, arr);
+            name = arr[1];
+        }
+        if (index(name, "-") > 0) {
+            print time "\t" name
+        }
+    }
+}' | sort -k1,1 >> ./playlist_archive/$filename
