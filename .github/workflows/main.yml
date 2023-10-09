@@ -2,8 +2,8 @@ name: Download the secret spots playlist everyday
 
 on:
   schedule:
-    # This runs at 12:00 UTC every day
-    - cron: '0 12 * * *'
+    # This runs at 09:00 UTC every day
+    - cron: '0 9 * * *'
 
 jobs:
   build:
