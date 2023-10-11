@@ -24,7 +24,7 @@ NR%2 {
             print time "\t" name
         }
     }
-}' | sort -k1,1 | recode html..ascii > ./playlist_archive/$filename
+}' | sort -k1,1 > ./playlist_archive/$filename
 
 
 url="https://onlineradiobox.com/us/wers/playlist/5?cs=us.wers&useStationLocation=1"
@@ -48,4 +48,6 @@ NR%2 {
             print time "\t" name
         }
     }
-}' | sort -k1,1 | recode html..ascii >> ./playlist_archive/$filename
+}' | sort -k1,1 >> ./playlist_archive/$filename
+
+recode html..ascii ./playlist_archive/$filename
