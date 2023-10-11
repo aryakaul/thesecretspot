@@ -30,7 +30,7 @@ jobs:
         if [-z "$(git status --porcelain)"]; then
            echo "::set-output name=push::false"
         else
-           git commit -m "Add changes" -a
+           git commit -m "Save playlist -- $(date -d "6 days ago" -u "+%Y-%m-%d")" -a
            echo "::set-output name=push::true"
         fi
 
