@@ -1,4 +1,4 @@
-name: Download the secret spots playlist everyday
+name: "Automated dl of The Secret Spot's setlist from WERS"
 
 on:
   schedule:
