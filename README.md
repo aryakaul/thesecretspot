@@ -1,2 +1,3 @@
-# secretspot [![Automated dl of The Secret Spot's setlist from WERS](https://github.com/aryakaul/secretspot/actions/workflows/main.yml/badge.svg)](https://github.com/aryakaul/secretspot/actions/workflows/main.yml)
-repo of WERS' the secret spot's playlist 
+<h3 align="center"><img src="https://wers.org/wp-content/uploads/2022/09/IMG_4763-2.jpg"></h3>
+
+WERS' <a href="https://wers.org/listen/schedule-shows/secret-spot/">the secret spot</a> is the best radio show I have ever listened to. <b>DJ D Danubian</b> is a groovy genius. Please <a href="https://wers.secureallegiance.com/wers/WebModule/Donate.aspx?P=PWEBRENEW&PAGETYPE=PLG&CHECK=zs87A9z8BYJG73GLQgMc6q1gzMC6uhq5nDjkJobrCdg%3d">donate</a> to WERS if you like the music.
