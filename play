@@ -1,0 +1,73 @@
+#!/bin/bash
+
+#!/bin/bash
+
+# Initialize empty array to store song URLs
+declare -a song_urls
+
+# Check for required tools
+if ! command -v yt-dlp &> /dev/null; then
+    echo "yt-dlp is not installed. Please install it first."
+    exit 1
+fi
+
+if ! command -v mpv &> /dev/null; then
+    echo "mpv is not installed. Please install it first."
+    exit 1
+fi
+
+# Parsing command-line arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -i|--input) input_file="$2"; shift ;;
+        -d|--download) download=true; download_dir="$2"; shift ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+echo "[INFO] Checking the input file..."
+if [[ ! -f "$input_file" ]]; then
+    echo "[ERROR] File not found: $input_file"
+    exit 1
+fi
+
+[ $download ] && mkdir -p $download_dir
+
+# Initialize a counter for numbering songs
+counter=1
+
+# Extract songs and search on YouTube
+echo "[INFO] Processing songs from the input file..."
+while IFS= read -r line; do
+    song="$(echo "$line" | cut -d$'\t' -f2)"
+    if [[ $download == true ]]; then
+        # Zero-pad the counter for filename
+        padded_counter=$(printf "%02d" $counter)
+        echo "[INFO] Downloading: $song..."
+
+        output="$download_dir/"$padded_counter"_"$(echo $song | tr -d ' ')".mp3"
+        
+        # Download the audio with enumerated filename
+        yt-dlp "ytsearch:$song" --no-warnings -x --audio-quality 0 --audio-format mp3 -o $output & # In parallel
+        
+        # Increment the counter
+        ((counter++))
+    else
+        # Get the URL and play immediately with mpv
+        echo "[INFO] Searching for: $song..."
+        url=$(yt-dlp "ytsearch1:$song" -x --no-warnings --get-url)
+        echo "[INFO] Playing: $song..."
+        mpv "$url"
+    fi
+done < "$input_file"
+
+wait # Wait for all parallel processes (if any)
+
+if [[ $download != true ]]; then
+    # Play songs in order
+    for url in "${song_urls[@]}"; do
+        mpv "$url"
+    done
+fi
+
