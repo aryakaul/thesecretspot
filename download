@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filename=$(date -d "6 days ago" -u +%Y-%m-%d)
+filename=$(date -d "6 days ago" -u +%Y-%m-%d).txt
 
 url="https://onlineradiobox.com/us/wers/playlist/6?cs=us.wers&useStationLocation=1"
 
